@@ -1,0 +1,7 @@
+streamlit
+sentence-transformers
+spacy
+networkx
+plotly
+numpy
+Pillow>=9.1.0
