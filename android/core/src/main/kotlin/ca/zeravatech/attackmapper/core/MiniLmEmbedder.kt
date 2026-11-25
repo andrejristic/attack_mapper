@@ -53,7 +53,7 @@ class MiniLmEmbedder(modelBytes: ByteArray, vocabLines: List<String>) : Embedder
     }
 
     companion object {
-        const val MODEL_ASSET = "minilm/model_qint8_arm64.onnx"
+        const val MODEL_ASSET = "minilm/model_fp16w.onnx"
         const val VOCAB_ASSET = "minilm/vocab.txt"
     }
 }

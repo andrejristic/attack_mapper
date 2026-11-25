@@ -16,6 +16,6 @@ Additional term under section 7(b) of the GNU GPL version 3:
   original work to Andrej Ristic / Zerava Technologies Inc.
 
 Third-party components in the Android app:
-  - sentence-transformers/all-MiniLM-L6-v2 (quantized ONNX), Apache License 2.0
+  - sentence-transformers/all-MiniLM-L6-v2 (ONNX, weights stored as float16), Apache License 2.0
   - ONNX Runtime, MIT License
   - AndroidX / Jetpack Compose, Apache License 2.0

@@ -37,7 +37,7 @@ no internet permission, nothing leaves the device.
 - **Download:** latest APK under [Releases](https://github.com/andrejristic/attack_mapper/releases)
   (all apps: [andrejristic/APK](https://github.com/andrejristic/APK))
 - **Code:** [`android/`](android/) (Kotlin + Jetpack Compose). The detectors are a line-for-line
-  port of `app.py`; embeddings come from the same `all-MiniLM-L6-v2` model (int8 ONNX).
+  port of `app.py`; embeddings come from the same `all-MiniLM-L6-v2` model (ONNX, float16-stored weights, fp32 compute).
 - **Parity:** CI runs the original `app.py` analysis code and fails if the Android port
   disagrees on any intent, detector score or alert level ([`tools/reference/`](tools/reference/)).
 - **Extras:** share a conversation from any app (or select text → *Attack Mapper*), paste a

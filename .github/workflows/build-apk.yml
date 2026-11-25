@@ -29,11 +29,15 @@ jobs:
           python-version: "3.11"
           cache: pip
           cache-dependency-path: tools/reference/requirements.txt
-      - name: Fetch pinned MiniLM model
-        run: bash tools/fetch_model.sh
       - name: Install reference deps
         run: pip install -r tools/reference/requirements.txt
-      - name: Build reference (fails if quantized model changes app.py decisions)
+      - uses: actions/cache@v4
+        with:
+          path: tools/.cache
+          key: minilm-fp32-1110a243
+      - name: Fetch pinned MiniLM model (+ float16-weight app model)
+        run: bash tools/fetch_model.sh
+      - name: Build reference (fails if the app model changes app.py decisions)
         run: |
           set -o pipefail
           python tools/reference/make_reference.py 2>&1 | tee reference.log
@@ -63,7 +67,16 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.11.1"
-      - name: Fetch pinned MiniLM model
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Model build deps
+        run: pip install onnx==1.17.0 numpy==1.26.4
+      - uses: actions/cache@v4
+        with:
+          path: tools/.cache
+          key: minilm-fp32-1110a243
+      - name: Fetch pinned MiniLM model (+ float16-weight app model)
         run: bash tools/fetch_model.sh
       - uses: actions/download-artifact@v4
         with:

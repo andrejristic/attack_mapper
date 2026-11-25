@@ -103,7 +103,7 @@ Prođi redom i javi Claudeu šta ne radi (najbolje sa screenshotom):
 
 ## Šta je Claude uradio (ukratko)
 - Kotlin verzija logike iz `app.py` (4 detektora, iste težine i pragovi) i isti model
-  `all-MiniLM-L6-v2` na uređaju (int8 ONNX, ~23 MB), bez interneta
+  `all-MiniLM-L6-v2` na uređaju (~45 MB, ista preciznost kao original), bez interneta
 - CI test pokreće **originalni** kod iz `app.py` i pada ako Android verzija bilo gde odstupa
 - **Popravljena greška u `app.py`:** desktop verzija je padala na prvoj poruci
   (`np.max` na PyTorch tensoru)

@@ -33,7 +33,12 @@ class ParityTest {
                 return
             }
             ref = JSONObject(refFile.readText())
-            embedder = MiniLmEmbedder(model.readBytes(), vocab.readLines())
+            val bytes = model.readBytes()
+            val sha = java.security.MessageDigest.getInstance("SHA-256").digest(bytes)
+                .joinToString("") { "%02x".format(it) }
+            val expected = ref!!.optString("app_model_sha256")
+            if (expected.isNotEmpty() && expected != sha) fail("app model differs from the reference model: $sha vs $expected")
+            embedder = MiniLmEmbedder(bytes, vocab.readLines())
         }
     }
 
@@ -86,7 +91,7 @@ class ParityTest {
             for (variant in listOf("q", "fp32")) {
                 val exp = p.getJSONObject(variant)
                 // q = same model as the app (tight); fp32 = original app.py model (decisions must match,
-                // scores may drift a little because of int8 quantization).
+                // scores may drift slightly because the app stores weights as float16).
                 val tol = if (variant == "q") 2e-3 else 5e-2
                 val turns = exp.getJSONArray("turns")
                 for (i in 0 until turns.length()) {
@@ -105,7 +110,7 @@ class ParityTest {
                 }
                 assertEquals("$name/$variant total", exp.getDouble("total"), report.total, 1e-9)
             }
-            // Similarity edges (cosine > 0.6) vs the quantized reference.
+            // Similarity edges (cosine > 0.6) vs the reference run on the app model.
             val expEdges = p.getJSONObject("q").getJSONArray("edges").let { a ->
                 (0 until a.length()).map { val x = a.getJSONArray(it); x.getInt(0) to x.getInt(1) }.toSet()
             }

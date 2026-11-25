@@ -6,20 +6,22 @@ Runs the ORIGINAL analysis code from app.py (everything between
 "# --- CONSTANTS & ANCHORS ---" and "# --- UI LAYOUT ---", executed as-is) twice:
 
   fp32 : SentenceTransformer('all-MiniLM-L6-v2')            (what app.py uses)
-  q    : the quantized ONNX model the Android app ships     (onnxruntime, same pooling)
+  q    : the ONNX model the Android app ships (fp32 graph, weights stored as float16;
+         tools/make_fp16_weights.py), run with onnxruntime and the same pooling
 
 and writes tools/reference/out/reference.json with:
   - token ids from the HuggingFace tokenizer (the Kotlin tokenizer must match exactly)
-  - quantized embeddings (the Kotlin ONNX embedder must match closely)
+  - app-model embeddings (the Kotlin ONNX embedder must match closely)
   - full pipeline results for the 3 example conversations, fp32 and q
 
-It FAILS if the quantized model changes any decision of the original (detector outputs,
+It FAILS if the app model changes any decision of the original (detector outputs,
 total risk, alert level, risk bands, or an intent that is not a near tie; see NEAR_TIE),
 so "same behaviour as app.py" is enforced.
 
 spaCy: app.py falls back to spacy.blank("en") (no NER) -> keyword entity scan. The
 Android port always uses that keyword scan, so the reference does the same.
 """
+import hashlib
 import json
 import os
 import re
@@ -37,10 +39,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 MODEL_ID = "sentence-transformers/all-MiniLM-L6-v2"
 REVISION = "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
-ONNX_PATH = os.path.join(ROOT, "android", "app", "src", "main", "assets", "minilm", "model_qint8_arm64.onnx")
+ONNX_PATH = os.path.join(ROOT, "android", "app", "src", "main", "assets", "minilm", "model_fp16w.onnx")
 OUT = os.path.join(HERE, "out", "reference.json")
-# An intent may differ between the original fp32 model and the int8 model the app ships only when
-# the original itself was nearly undecided: top-2 intent scores closer than this, and the int8
+# An intent may differ between the original fp32 model and the model the app ships only when
+# the original itself was nearly undecided: top-2 intent scores closer than this, and the app
 # model picks the original's runner-up. Detector outputs and alert levels must still match exactly.
 NEAR_TIE = 0.03
 
@@ -191,7 +193,8 @@ def main():
 
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump({"model": MODEL_ID, "revision": REVISION, "tokens": tokens, "embeddings_q": embeddings,
+        json.dump({"model": MODEL_ID, "revision": REVISION,
+                   "app_model_sha256": hashlib.sha256(open(ONNX_PATH, "rb").read()).hexdigest(), "tokens": tokens, "embeddings_q": embeddings,
                    "pipelines": pipelines, "near_ties": near_ties,
                    "decision_parity_problems": problems}, fh, ensure_ascii=False)
     print(f"wrote {OUT}")
@@ -199,11 +202,11 @@ def main():
         print(f"near tie (allowed): {t['example']} turn {t['turn']}: fp32={t['fp32']} q={t['q']} "
               f"fp32 margin={t['fp32_margin']:.4f}")
     if problems:
-        print("DECISION PARITY FAILED (quantized model changes app.py behaviour):")
+        print("DECISION PARITY FAILED (the app model changes app.py behaviour):")
         for p in problems:
             print("  -", p)
         sys.exit(1)
-    print("decision parity fp32 vs quantized: OK")
+    print("decision parity fp32 vs app model: OK")
 
 
 if __name__ == "__main__":

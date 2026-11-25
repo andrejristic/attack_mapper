@@ -76,7 +76,7 @@ android {
 }
 
 val checkModelAssets by tasks.registering {
-    val files = listOf("minilm/model_qint8_arm64.onnx", "minilm/vocab.txt").map { file("src/main/assets/$it") }
+    val files = listOf("minilm/model_fp16w.onnx", "minilm/vocab.txt").map { file("src/main/assets/$it") }
     doLast {
         files.filterNot { it.isFile }.takeIf { it.isNotEmpty() }?.let {
             throw GradleException("Missing model assets $it — run tools/fetch_model.sh first")
