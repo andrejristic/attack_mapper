@@ -15,6 +15,11 @@ služi i za proveru celog procesa (CI, potpisivanje, objavljivanje).
 
 ---
 
+> **Status (2026-11-25):** faze 1–6 i vodič su gotovi; CI je zelen (referenca iz
+> originalnog `app.py`, Kotlin testovi podudarnosti, build). Test izdanje: `v0.9.0-test`.
+> Ostaje: Andrejevi koraci 0.5, 0.6 i faza 7, pa `v1.0.0`. Usput je pronađena i popravljena greška zbog koje je
+> desktop `app.py` padao na prvoj poruci (`np.max` na PyTorch tensoru).
+
 ## Faza 0: priprema
 
 ### Andrej
@@ -36,64 +41,65 @@ služi i za proveru celog procesa (CI, potpisivanje, objavljivanje).
 > Releases se čitaju bez tokena.
 
 ### Claude
-- [ ] **0.4** Instalirati JDK i generisati **jedan upload ključ** (`keytool`) za sve tri
-      aplikacije. Keystore i lozinke idu u `/sdcard-storage/11CODE/attack_mapper/`
-      (`upload-keystore.jks` + `ANDROID-TAJNE.txt`), nikad u git.
+- [x] **0.4** Generisan **jedan upload ključ** za sve tri aplikacije (RSA 4096, PKCS12 preko
+      `openssl`, važi do 2056). Keystore i lozinke su u `/sdcard-storage/11CODE/attack_mapper/`
+      (`upload-keystore.p12` + `ANDROID-TAJNE.txt`), nikad u gitu.
 
 > **Pravilo za fajlove:** repo se razvija u `~/Git/attack_mapper`; sve što se
 > generiše (APK, ključevi, tajne) ide u `/sdcard-storage/11CODE/attack_mapper/`.
 
 ## Faza 1: logika u Kotlinu
-- [ ] 1.1 Android projekat u `android/`: Kotlin, Jetpack Compose, minSdk 26 (Android 8+),
+- [x] 1.1 Android projekat u `android/`: Kotlin, Jetpack Compose, minSdk 26 (Android 8+),
       targetSdk po trenutnom zahtevu Google Play-a.
-- [ ] 1.2 Prenos modela podataka: `TurnNode`, `ConversationGraph`.
-- [ ] 1.3 Prenos 4 detektora i ukupnog rizika: persona drift, refusal erosion,
+- [x] 1.2 Prenos modela podataka: `TurnNode`, `ConversationGraph`.
+- [x] 1.3 Prenos 4 detektora i ukupnog rizika: persona drift, refusal erosion,
       topic escalation, obfuscation chain.
-- [ ] 1.4 Prenos ankera za nameru (5 grupa) i osetljivih tema (4 grupe).
-- [ ] 1.5 **Test podudarnosti:** isti razgovori kroz Python original i Kotlin verziju
+- [x] 1.4 Prenos ankera za nameru (5 grupa) i osetljivih tema (4 grupe).
+- [x] 1.5 **Test podudarnosti:** isti razgovori kroz Python original i Kotlin verziju
       moraju dati iste rezultate (pragovi 0.25 / 0.4 / 0.5 / 0.6).
 
 ## Faza 2: embeddinzi na telefonu
-- [ ] 2.1 Model `all-MiniLM-L6-v2`, kvantizovan za ARM (~23 MB, Apache-2.0 licenca,
-      uz navođenje autora u aplikaciji).
-- [ ] 2.2 ONNX Runtime Android za pokretanje modela.
-- [ ] 2.3 WordPiece tokenizer u Kotlinu (`vocab.txt`).
-- [ ] 2.4 Test: kosinusna sličnost u Kotlinu mora biti u okviru ±0.01 od Python
+- [x] 2.1 Model `all-MiniLM-L6-v2` (Apache-2.0, autor naveden u aplikaciji): originalni fp32
+      ONNX sa težinama sačuvanim kao float16 (~45 MB, računanje u fp32). Int8 verzija (~23 MB)
+      je odbačena jer je pomerala ocene poteza preko pragova 0.3 i 0.4 iz `app.py`.
+- [x] 2.2 ONNX Runtime Android za pokretanje modela.
+- [x] 2.3 WordPiece tokenizer u Kotlinu (`vocab.txt`).
+- [x] 2.4 Test: kosinusna sličnost u Kotlinu mora biti u okviru ±0.01 od Python
       `sentence-transformers`.
-- [ ] 2.5 Embeddinzi ankera se računaju jednom i keširaju, pa je pokretanje brzo.
-- [ ] 2.6 Umesto spaCy-ja: prepoznavanje entiteta preko liste ključnih reči i regexa.
+- [x] 2.5 Embeddinzi ankera se računaju jednom i keširaju, pa je pokretanje brzo.
+- [x] 2.6 Umesto spaCy-ja: prepoznavanje entiteta preko liste ključnih reči i regexa.
       Logika za prekursore iz originala ostaje ista.
 
 ## Faza 3: interfejs
-- [ ] 3.1 **Razgovor:** unos poruka sa izborom User/AI.
-- [ ] 3.2 **Graf:** potezi obojeni po riziku, kao vertikalna vremenska linija.
-- [ ] 3.3 **Monitor pretnji:** ukupni rizik, 4 detektora, upozorenja.
-- [ ] 3.4 **Test primeri:** benigni razgovor, jailbreak u jednom potezu, napad kroz
+- [x] 3.1 **Razgovor:** unos poruka sa izborom User/AI.
+- [x] 3.2 **Graf:** potezi obojeni po riziku, kao vertikalna vremenska linija.
+- [x] 3.3 **Monitor pretnji:** ukupni rizik, 4 detektora, upozorenja.
+- [x] 3.4 **Test primeri:** benigni razgovor, jailbreak u jednom potezu, napad kroz
       više poteza (preuzeti iz `app.py`).
-- [ ] 3.5 **Izvoz u JSON** preko Android deljenja.
-- [ ] 3.6 Svetla i tamna tema; jezik SR/EN sa **prekidačem u interfejsu**.
+- [x] 3.5 **Izvoz u JSON** preko Android deljenja.
+- [x] 3.6 Svetla i tamna tema; jezik SR/EN sa **prekidačem u interfejsu**.
 
 ## Faza 4: mobilna prednost
-- [ ] 4.1 **Share target:** tekst razgovora iz bilo koje aplikacije (ChatGPT, Claude…)
+- [x] 4.1 **Share target:** tekst razgovora iz bilo koje aplikacije (ChatGPT, Claude…)
       ide pravo u Attack Mapper.
-- [ ] 4.2 Parser koji prepozna ko govori u nalepljenom tekstu
+- [x] 4.2 Parser koji prepozna ko govori u nalepljenom tekstu
       („User:“ / „Assistant:“, „You said“…).
-- [ ] 4.3 Istorija analiza, čuva se samo lokalno.
+- [x] 4.3 Istorija analiza, čuva se samo lokalno.
 
 ## Faza 5: CI i objavljivanje
-- [ ] 5.1 `.github/workflows/build-apk.yml`: testovi, build, potpis, **APK i AAB**
+- [x] 5.1 `.github/workflows/build-apk.yml`: testovi, build, potpis, **APK i AAB**
       (AAB je za kasniji Google Play).
 - [ ] 5.2 Tag `v1.0.0` pravi **GitHub Release** sa `attack-mapper-1.0.0.apk`.
-- [ ] 5.3 Build samo za `arm64-v8a` (svi moderni telefoni). APK će imati oko 35–45 MB.
+- [x] 5.3 Build za `arm64-v8a` (telefoni, ARM Chromebookovi) i `x86_64` (Intel/AMD Chromebookovi).
 
 ## Faza 6: repo `APK`
-- [ ] 6.1 README sa tabelom: aplikacija, verzija, datum, link za preuzimanje.
-- [ ] 6.2 Workflow koji jednom na sat (i ručno, dugmetom) prođe kroz sve javne
+- [x] 6.1 README sa tabelom: aplikacija, verzija, datum, link za preuzimanje.
+- [x] 6.2 Workflow koji jednom na sat (i ručno, dugmetom) prođe kroz sve javne
       `andrejristic` repoe, pronađe release sa `.apk` fajlom i osveži tabelu.
-- [ ] 6.3 Uputstvo „Kako instalirati APK“ (dozvola za instalaciju iz nepoznatih izvora), SR i EN.
+- [x] 6.3 Uputstvo „Kako instalirati APK“ (dozvola za instalaciju iz nepoznatih izvora), SR i EN.
 
 ## Vodič za Andreja (Claude piše na kraju)
-- [ ] `VODIC-SR.md` u repou i kopija u `/sdcard-storage/11CODE/attack_mapper/`, sa
+- [x] `VODIC-SR.md` u repou i kopija u `/sdcard-storage/11CODE/attack_mapper/`, sa
       svim koracima koje radi Andrej, korak po korak:
       repo `APK` (0.1), **4 tajne za potpisivanje (0.5)** sa objašnjenjem šta je svaka,
       rezervna kopija ključa (0.6), pravljenje releasa, instalacija APK-a na Chromebooku
