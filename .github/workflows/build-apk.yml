@@ -120,7 +120,10 @@ jobs:
           if [[ -n "${ANDROID_KEYSTORE_PATH:-}" ]]; then tasks="$tasks :app:assembleRelease :app:bundleRelease"; fi
           gradle -p android $tasks --no-daemon 2>&1 | tee gradle-build.log
           mkdir -p dist
-          cp android/app/build/outputs/apk/debug/app-debug.apk "dist/attack-mapper-${VERSION_NAME}-test.apk"
+          TEST_NAME="attack-mapper-${VERSION_NAME}-test.apk"
+          [[ "$VERSION_NAME" == *-test ]] && TEST_NAME="attack-mapper-${VERSION_NAME}.apk"
+          echo "TEST_NAME=$TEST_NAME" >> "$GITHUB_ENV"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "dist/$TEST_NAME"
           if [[ -n "${ANDROID_KEYSTORE_PATH:-}" ]]; then
             cp android/app/build/outputs/apk/release/app-release.apk "dist/attack-mapper-${VERSION_NAME}.apk"
             cp android/app/build/outputs/bundle/release/app-release.aab "dist/attack-mapper-${VERSION_NAME}.aab"
@@ -159,7 +162,7 @@ jobs:
           if [[ -n "${ANDROID_KEYSTORE_PATH:-}" ]]; then
             files="dist/attack-mapper-${VERSION_NAME}.apk dist/attack-mapper-${VERSION_NAME}.aab"
           else
-            files="dist/attack-mapper-${VERSION_NAME}-test.apk"
+            files="dist/${TEST_NAME}"
           fi
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             # Release made by hand on GitHub: just attach the build.
