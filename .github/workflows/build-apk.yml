@@ -7,6 +7,8 @@ on:
     branches: ["**"]
     tags: ["v*"]
   pull_request:
+  release:
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -137,6 +139,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
           pre=""
           [[ "$GITHUB_REF_NAME" == *-* ]] && pre="--prerelease"
@@ -145,6 +148,11 @@ jobs:
           else
             files="dist/attack-mapper-${VERSION_NAME}-test.apk"
           fi
-          gh release create "$GITHUB_REF_NAME" $files $pre \
-            --title "Attack Mapper ${VERSION_NAME}" \
-            --notes "Android build of Attack Mapper ${VERSION_NAME}. Install: see VODIC-SR.md / README. Works offline; no internet permission."
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            # Release made by hand on GitHub: just attach the build.
+            gh release upload "$GITHUB_REF_NAME" $files --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" $files $pre \
+              --title "Attack Mapper ${VERSION_NAME}" \
+              --notes "Android build of Attack Mapper ${VERSION_NAME}. Install: see VODIC-SR.md / README. Works offline; no internet permission."
+          fi

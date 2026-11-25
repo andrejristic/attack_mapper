@@ -71,6 +71,10 @@ class ParityTest {
     @Test fun pipelineMatchesAppPy() {
         val (r, e) = need()
         val analyzer = Analyzer(e) { 0L }
+        // Intents where the original fp32 model was nearly undecided (see NEAR_TIE in make_reference.py).
+        val nearTies = r.optJSONArray("near_ties")?.let { a ->
+            (0 until a.length()).map { val o = a.getJSONObject(it); o.getString("example") to o.getInt("turn") }.toSet()
+        } ?: emptySet()
         val pipes = r.getJSONObject("pipelines")
         for (name in pipes.keySet()) {
             val p = pipes.getJSONObject(name)
@@ -88,7 +92,9 @@ class ParityTest {
                 for (i in 0 until turns.length()) {
                     val et = turns.getJSONObject(i)
                     val at = conv.turns[i]
-                    assertEquals("$name/$variant turn $i intent", et.getString("intent"), at.intent)
+                    if (variant == "q" || (name to i) !in nearTies) {
+                        assertEquals("$name/$variant turn $i intent", et.getString("intent"), at.intent)
+                    }
                     assertEquals("$name/$variant turn $i risk", et.getDouble("risk"), at.riskScore, tol)
                     assertEquals("$name/$variant turn $i entities", strings(et.getJSONArray("entities")),
                         at.entities.sorted())
