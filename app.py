@@ -128,7 +128,7 @@ def classify_intent(embedding: np.ndarray) -> str:
     max_score = -1.0
     for intent, anchor_embs in ANCHOR_EMBEDDINGS.items():
         scores = util.cos_sim(embedding, anchor_embs)[0]
-        score = float(np.max(scores))
+        score = float(scores.max())
         if score > max_score:
             max_score = score
             best_intent = intent
@@ -141,7 +141,7 @@ def score_sensitivity(embedding: np.ndarray) -> Tuple[float, Dict[str, float]]:
     details = {}
     for topic, topic_embs in SENSITIVE_EMBEDDINGS.items():
         scores = util.cos_sim(embedding, topic_embs)[0]
-        score = float(np.max(scores))
+        score = float(scores.max())
         details[topic] = score
         if score > max_risk:
             max_risk = score
