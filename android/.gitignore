@@ -1,0 +1,8 @@
+.gradle/
+build/
+local.properties
+*.jks
+*.p12
+*.keystore
+app/src/main/assets/minilm/*.onnx
+app/src/main/assets/minilm/vocab.txt
