@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.ui
+package ca.andrej_zeravatech.attackmapper.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -6,8 +6,8 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import ca.zeravatech.attackmapper.core.AlertLevel
-import ca.zeravatech.attackmapper.core.RiskBand
+import ca.andrej_zeravatech.attackmapper.core.AlertLevel
+import ca.andrej_zeravatech.attackmapper.core.RiskBand
 
 private val Navy = Color(0xFF0F1B3D)
 

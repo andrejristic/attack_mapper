@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.core
+package ca.andrej_zeravatech.attackmapper.core
 
 /** The four attack detectors and the weighted total, ported line-for-line from app.py. */
 object Detectors {

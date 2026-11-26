@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.core
+package ca.andrej_zeravatech.attackmapper.core
 
 /** Same JSON shape as the "Export Analysis" button in app.py. No external JSON library. */
 object ExportJson {

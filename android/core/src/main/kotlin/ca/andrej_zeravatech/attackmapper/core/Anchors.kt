@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.core
+package ca.andrej_zeravatech.attackmapper.core
 
 /**
  * Anchor phrases and keyword lists, copied verbatim from app.py

@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.core
+package ca.andrej_zeravatech.attackmapper.core
 
 /**
  * Turns a pasted/shared chat transcript into (role, text) turns.

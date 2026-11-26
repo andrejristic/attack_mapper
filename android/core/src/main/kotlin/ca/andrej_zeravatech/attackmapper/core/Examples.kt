@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.core
+package ca.andrej_zeravatech.attackmapper.core
 
 /** The three "Test Cases" from the app.py sidebar, verbatim. */
 object Examples {

@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper
+package ca.andrej_zeravatech.attackmapper
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import ca.zeravatech.attackmapper.ui.AttackMapperApp
+import ca.andrej_zeravatech.attackmapper.ui.AttackMapperApp
 
 class MainActivity : ComponentActivity() {
     private val vm: AppViewModel by viewModels()

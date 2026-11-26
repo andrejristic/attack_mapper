@@ -14,11 +14,11 @@ val amVersionName = versionMatch?.let { amVersion.removePrefix("v") } ?: "0.0.0-
 val keystorePath: String? = System.getenv("ANDROID_KEYSTORE_PATH")?.takeIf { it.isNotBlank() }
 
 android {
-    namespace = "ca.zeravatech.attackmapper"
+    namespace = "ca.andrej_zeravatech.attackmapper"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ca.zeravatech.attackmapper"
+        applicationId = "ca.andrej_zeravatech.attackmapper"
         minSdk = 26
         targetSdk = 35
         versionCode = amVersionCode

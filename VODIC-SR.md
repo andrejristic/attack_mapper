@@ -63,6 +63,10 @@ Odmah: repo APK → **Actions** → **update-apk-index** → **Run workflow**.
 
 Test verzija (`…-test.apk`) se instalira **pored** zvanične, pa ne moraš ništa da brišeš.
 
+> Ako si instalirao **`v0.9.0-test`**, obriši je ručno (dugo pritisni ikonicu → Ukloni / Uninstall).
+> Od `v0.9.1-test` aplikacija ima novi identifikator (`ca.andrej_zeravatech.attackmapper`),
+> pa bi stara ostala kao posebna aplikacija.
+
 **Telefon:** otvori repo [APK](https://github.com/andrejristic/APK) na telefonu → dodirni link →
 otvori preuzeti fajl → dozvoli „Instaliraj nepoznate aplikacije“ za browser → **Instaliraj**.
 Ako Play Protect upozori: **Više detalja → Ipak instaliraj**.

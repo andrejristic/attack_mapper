@@ -120,7 +120,7 @@ služi i za proveru celog procesa (CI, potpisivanje, objavljivanje).
 ---
 
 ## Odluke (potvrdio Andrej, 2026-11-25)
-1. **Package name:** `ca.zeravatech.attackmapper`
+1. **Package name:** `ca.andrej_zeravatech.attackmapper` (šema `ca.andrej_zeravatech.<ime>`, promenjeno 2026-11-26)
 2. **Licenca:** GPL-3.0-or-later (kao ostali repoi)
 3. **Jezik:** srpski i engleski; podrazumevano po jeziku sistema, **uz prekidač SR/EN u interfejsu**
 4. **Ikonica:** chat oblačić (LLM razgovor) sa grafom od 3–4 povezana čvora (potezi); poslednji čvor crven = otkriven napad. Tamnoplava pozadina, beli oblačić.

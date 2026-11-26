@@ -1,6 +1,6 @@
-package ca.zeravatech.attackmapper
+package ca.andrej_zeravatech.attackmapper
 
-import ca.zeravatech.attackmapper.core.Role
+import ca.andrej_zeravatech.attackmapper.core.Role
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File

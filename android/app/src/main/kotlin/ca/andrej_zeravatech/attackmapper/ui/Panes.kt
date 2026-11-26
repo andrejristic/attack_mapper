@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.ui
+package ca.andrej_zeravatech.attackmapper.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -47,14 +47,14 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ca.zeravatech.attackmapper.AppViewModel
-import ca.zeravatech.attackmapper.core.Conversation
-import ca.zeravatech.attackmapper.core.FLAGGED_TURN_MIN
-import ca.zeravatech.attackmapper.core.RiskBand
-import ca.zeravatech.attackmapper.core.RiskReport
-import ca.zeravatech.attackmapper.core.Role
-import ca.zeravatech.attackmapper.core.Turn
-import ca.zeravatech.attackmapper.core.AlertLevel
+import ca.andrej_zeravatech.attackmapper.AppViewModel
+import ca.andrej_zeravatech.attackmapper.core.Conversation
+import ca.andrej_zeravatech.attackmapper.core.FLAGGED_TURN_MIN
+import ca.andrej_zeravatech.attackmapper.core.RiskBand
+import ca.andrej_zeravatech.attackmapper.core.RiskReport
+import ca.andrej_zeravatech.attackmapper.core.Role
+import ca.andrej_zeravatech.attackmapper.core.Turn
+import ca.andrej_zeravatech.attackmapper.core.AlertLevel
 import java.util.Locale
 
 internal fun fmt(d: Double): String = String.format(Locale.US, "%.2f", d)

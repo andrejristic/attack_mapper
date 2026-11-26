@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper.ui
+package ca.andrej_zeravatech.attackmapper.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,11 +43,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import ca.zeravatech.attackmapper.AppViewModel
-import ca.zeravatech.attackmapper.Lang
-import ca.zeravatech.attackmapper.ModelState
-import ca.zeravatech.attackmapper.Strings
-import ca.zeravatech.attackmapper.core.Examples
+import ca.andrej_zeravatech.attackmapper.AppViewModel
+import ca.andrej_zeravatech.attackmapper.Lang
+import ca.andrej_zeravatech.attackmapper.ModelState
+import ca.andrej_zeravatech.attackmapper.Strings
+import ca.andrej_zeravatech.attackmapper.core.Examples
 
 val LocalStrings = staticCompositionLocalOf { Strings.EN }
 

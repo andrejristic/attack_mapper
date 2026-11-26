@@ -1,7 +1,7 @@
-package ca.zeravatech.attackmapper
+package ca.andrej_zeravatech.attackmapper
 
-import ca.zeravatech.attackmapper.core.Anchors
-import ca.zeravatech.attackmapper.core.Detectors
+import ca.andrej_zeravatech.attackmapper.core.Anchors
+import ca.andrej_zeravatech.attackmapper.core.Detectors
 import java.util.Locale
 
 enum class Lang(val code: String) {

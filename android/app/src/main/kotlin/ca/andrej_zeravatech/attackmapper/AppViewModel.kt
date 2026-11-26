@@ -1,4 +1,4 @@
-package ca.zeravatech.attackmapper
+package ca.andrej_zeravatech.attackmapper
 
 import android.app.Application
 import android.content.Context
@@ -7,13 +7,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import ca.zeravatech.attackmapper.core.Analyzer
-import ca.zeravatech.attackmapper.core.Conversation
-import ca.zeravatech.attackmapper.core.Detectors
-import ca.zeravatech.attackmapper.core.ExportJson
-import ca.zeravatech.attackmapper.core.MiniLmEmbedder
-import ca.zeravatech.attackmapper.core.Role
-import ca.zeravatech.attackmapper.core.TranscriptParser
+import ca.andrej_zeravatech.attackmapper.core.Analyzer
+import ca.andrej_zeravatech.attackmapper.core.Conversation
+import ca.andrej_zeravatech.attackmapper.core.Detectors
+import ca.andrej_zeravatech.attackmapper.core.ExportJson
+import ca.andrej_zeravatech.attackmapper.core.MiniLmEmbedder
+import ca.andrej_zeravatech.attackmapper.core.Role
+import ca.andrej_zeravatech.attackmapper.core.TranscriptParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
